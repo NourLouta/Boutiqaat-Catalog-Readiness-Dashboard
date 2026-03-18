@@ -1009,30 +1009,38 @@ with tab_guide:
         for i, (field, w) in enumerate(SKINCARE_WEIGHTS.items()):
             bg = "rgba(184,134,11,0.06)" if i % 2 == 0 else "white"
             note = " 🖼️ graduated" if field == SKINCARE_IMG_FIELD else ""
-            sc_rows += f"""
-            <tr style="background:{bg};">
-                <td style="padding:7px 10px;font-weight:600;">{field}{note}</td>
-                <td style="padding:7px 10px;text-align:center;font-weight:700;color:{T.PRIMARY_DARK};">{w}</td>
-                <td style="padding:7px 10px;text-align:center;">{w}%</td>
-            </tr>"""
+            sc_rows += (
+                f'<tr style="background:{bg};">'
+                f'<td style="padding:7px 10px;font-weight:600;">{field}{note}</td>'
+                f'<td style="padding:7px 10px;text-align:center;font-weight:700;color:{T.PRIMARY_DARK};">{w}</td>'
+                f'<td style="padding:7px 10px;text-align:center;">{w}%</td>'
+                f'</tr>'
+            )
 
         # Build Apparel rows
         ap_rows = ""
         for i, (field, w) in enumerate(APPAREL_WEIGHTS.items()):
             bg = "rgba(59,130,246,0.05)" if i % 2 == 0 else "white"
             note = " 🖼️ graduated" if field == APPAREL_IMG_FIELD else ""
-            ap_rows += f"""
-            <tr style="background:{bg};">
-                <td style="padding:7px 10px;font-weight:600;">{field}{note}</td>
-                <td style="padding:7px 10px;text-align:center;font-weight:700;color:{T.ACCENT_SAPPHIRE};">{w}</td>
-                <td style="padding:7px 10px;text-align:center;">{w}%</td>
-            </tr>"""
+            ap_rows += (
+                f'<tr style="background:{bg};">'
+                f'<td style="padding:7px 10px;font-weight:600;">{field}{note}</td>'
+                f'<td style="padding:7px 10px;text-align:center;font-weight:700;color:{T.ACCENT_SAPPHIRE};">{w}</td>'
+                f'<td style="padding:7px 10px;text-align:center;">{w}%</td>'
+                f'</tr>'
+            )
 
-        st.markdown(f"""
+        sc_header_bg  = T.gold_gradient(90)
+        ap_header_bg  = f"linear-gradient(90deg,{T.ACCENT_SAPPHIRE},{T.ACCENT_VIOLET})"
+        primary_dark  = T.PRIMARY_DARK
+        accent_sap    = T.ACCENT_SAPPHIRE
+        text_primary  = T.TEXT_PRIMARY
+
+        html_weights = """
         <div class="insight-box insight-gold">
-            <h4 style="color:{T.PRIMARY_DARK};margin-top:0;">⚖️ Skincare Field Weights</h4>
+            <h4 style="color:{primary_dark};margin-top:0;">⚖️ Skincare Field Weights</h4>
             <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
-                <tr style="background:{T.gold_gradient(90)};color:white;">
+                <tr style="background:{sc_header_bg};color:white;">
                     <th style="padding:7px 10px;text-align:left;">Field</th>
                     <th style="padding:7px 10px;text-align:center;">Weight</th>
                     <th style="padding:7px 10px;text-align:center;">% of Score</th>
@@ -1047,9 +1055,9 @@ with tab_guide:
         </div>
 
         <div class="insight-box insight-info">
-            <h4 style="color:{T.ACCENT_SAPPHIRE};margin-top:0;">⚖️ Apparel Field Weights</h4>
+            <h4 style="color:{accent_sap};margin-top:0;">⚖️ Apparel Field Weights</h4>
             <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
-                <tr style="background:linear-gradient(90deg,{T.ACCENT_SAPPHIRE},{T.ACCENT_VIOLET});color:white;">
+                <tr style="background:{ap_header_bg};color:white;">
                     <th style="padding:7px 10px;text-align:left;">Field</th>
                     <th style="padding:7px 10px;text-align:center;">Weight</th>
                     <th style="padding:7px 10px;text-align:center;">% of Score</th>
@@ -1062,7 +1070,16 @@ with tab_guide:
                 </tr>
             </table>
         </div>
-        """, unsafe_allow_html=True)
+        """.format(
+            primary_dark  = primary_dark,
+            accent_sap    = accent_sap,
+            sc_header_bg  = sc_header_bg,
+            ap_header_bg  = ap_header_bg,
+            sc_rows       = sc_rows,
+            ap_rows       = ap_rows,
+        )
+
+        st.markdown(html_weights, unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown(f"""
