@@ -827,7 +827,12 @@ def display_table(df, title=None, download_name=None, scrollable=True,
         vertical-align: middle;
         word-break: break-word;
     }}
-    .bq-table td:first-child {{ color:{T.PRIMARY_DARK}; font-weight:700; }}
+    .bq-table td:first-child {{ 
+        color:{T.PRIMARY_DARK}; 
+        font-weight:700; 
+        white-space:nowrap;
+        min-width:120px;
+    }}
     </style>
     <div style="{scroll_css}">
     <table class="bq-table">
@@ -894,8 +899,8 @@ CHART_COLORS = [
 # ================================
 logo_html_header = (
     f'<img src="data:image/png;base64,{LOGO_B64}" '
-    f'style="max-height:55px;width:auto;vertical-align:middle;'
-    f'filter:brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0,0,0,0.3));">'
+    f'style="max-height:60px;width:auto;vertical-align:middle;'
+    f'filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));">'
     if LOGO_B64 else "🛍️"
 )
 
@@ -999,8 +1004,32 @@ with tab_guide:
         """, unsafe_allow_html=True)
 
     with col_g2:
+        # ── Skincare Field Weights ──────────────────────────────────────────
+        sc_rows = ""
+        for i, (field, w) in enumerate(SKINCARE_WEIGHTS.items()):
+            bg   = "rgba(184,134,11,0.06)" if i % 2 == 0 else "white"
+            note = " 🖼️ graduated" if field == SKINCARE_IMG_FIELD else ""
+            sc_rows += f"""
+            <tr style="background:{bg};">
+                <td style="padding:7px 10px;font-weight:600;">{field}{note}</td>
+                <td style="padding:7px 10px;text-align:center;font-weight:700;color:{T.PRIMARY_DARK};">{w}</td>
+                <td style="padding:7px 10px;text-align:center;">{w}%</td>
+            </tr>"""
+
+        # ── Apparel Field Weights ───────────────────────────────────────────
+        ap_rows = ""
+        for i, (field, w) in enumerate(APPAREL_WEIGHTS.items()):
+            bg   = "rgba(59,130,246,0.05)" if i % 2 == 0 else "white"
+            note = " 🖼️ graduated" if field == APPAREL_IMG_FIELD else ""
+            ap_rows += f"""
+            <tr style="background:{bg};">
+                <td style="padding:7px 10px;font-weight:600;">{field}{note}</td>
+                <td style="padding:7px 10px;text-align:center;font-weight:700;color:{T.ACCENT_SAPPHIRE};">{w}</td>
+                <td style="padding:7px 10px;text-align:center;">{w}%</td>
+            </tr>"""
+
         st.markdown(f"""
-        <div class="insight-box insight-gold" style="margin-bottom:1rem;">
+        <div class="insight-box insight-gold">
             <h4 style="color:{T.PRIMARY_DARK};margin-top:0;">⚖️ Skincare Field Weights</h4>
             <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
                 <tr style="background:{T.gold_gradient(90)};color:white;">
@@ -1008,29 +1037,15 @@ with tab_guide:
                     <th style="padding:7px 10px;text-align:center;">Weight</th>
                     <th style="padding:7px 10px;text-align:center;">% of Score</th>
                 </tr>
-        """, unsafe_allow_html=True)
+                {sc_rows}
+                <tr style="background:rgba(184,134,11,0.15);font-weight:800;">
+                    <td style="padding:8px 10px;">TOTAL</td>
+                    <td style="padding:8px 10px;text-align:center;">100</td>
+                    <td style="padding:8px 10px;text-align:center;">100%</td>
+                </tr>
+            </table>
+        </div>
 
-        rows_html = ""
-        for i, (field, w) in enumerate(SKINCARE_WEIGHTS.items()):
-            bg = "rgba(184,134,11,0.06)" if i % 2 == 0 else "white"
-            note = " 🖼️ graduated" if field == SKINCARE_IMG_FIELD else ""
-            rows_html += f"""
-            <tr style="background:{bg};">
-                <td style="padding:7px 10px;font-weight:600;">{field}{note}</td>
-                <td style="padding:7px 10px;text-align:center;font-weight:700;color:{T.PRIMARY_DARK};">{w}</td>
-                <td style="padding:7px 10px;text-align:center;">{w}%</td>
-            </tr>"""
-
-        st.markdown(rows_html + """
-            <tr style="background:rgba(184,134,11,0.15);font-weight:800;">
-                <td style="padding:8px 10px;">TOTAL</td>
-                <td style="padding:8px 10px;text-align:center;">100</td>
-                <td style="padding:8px 10px;text-align:center;">100%</td>
-            </tr>
-            </table></div>
-        """, unsafe_allow_html=True)
-
-        st.markdown(f"""
         <div class="insight-box insight-info">
             <h4 style="color:{T.ACCENT_SAPPHIRE};margin-top:0;">⚖️ Apparel Field Weights</h4>
             <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
@@ -1039,26 +1054,14 @@ with tab_guide:
                     <th style="padding:7px 10px;text-align:center;">Weight</th>
                     <th style="padding:7px 10px;text-align:center;">% of Score</th>
                 </tr>
-        """, unsafe_allow_html=True)
-
-        rows_html2 = ""
-        for i, (field, w) in enumerate(APPAREL_WEIGHTS.items()):
-            bg = "rgba(59,130,246,0.05)" if i % 2 == 0 else "white"
-            note = " 🖼️ graduated" if field == APPAREL_IMG_FIELD else ""
-            rows_html2 += f"""
-            <tr style="background:{bg};">
-                <td style="padding:7px 10px;font-weight:600;">{field}{note}</td>
-                <td style="padding:7px 10px;text-align:center;font-weight:700;color:{T.ACCENT_SAPPHIRE};">{w}</td>
-                <td style="padding:7px 10px;text-align:center;">{w}%</td>
-            </tr>"""
-
-        st.markdown(rows_html2 + """
-            <tr style="background:rgba(59,130,246,0.12);font-weight:800;">
-                <td style="padding:8px 10px;">TOTAL</td>
-                <td style="padding:8px 10px;text-align:center;">100</td>
-                <td style="padding:8px 10px;text-align:center;">100%</td>
-            </tr>
-            </table></div>
+                {ap_rows}
+                <tr style="background:rgba(59,130,246,0.12);font-weight:800;">
+                    <td style="padding:8px 10px;">TOTAL</td>
+                    <td style="padding:8px 10px;text-align:center;">100</td>
+                    <td style="padding:8px 10px;text-align:center;">100%</td>
+                </tr>
+            </table>
+        </div>
         """, unsafe_allow_html=True)
 
     st.markdown("---")
@@ -1158,8 +1161,8 @@ with tab_exec:
         st.markdown(kpi_card("⚠️", fmt_num(near_ready), "Near Ready",
                              "amber", "Score 75–99"), unsafe_allow_html=True)
     with c4:
-        st.markdown(kpi_card("❌", fmt_num(incomplete), "Incomplete",
-                             "crimson", "Score < 50"), unsafe_allow_html=True)
+        st.markdown(kpi_card("🔵", fmt_num(partial), "Partial",
+                            "sapphire", "Score 50–74"), unsafe_allow_html=True)
     with c5:
         st.markdown(kpi_card("📈", f"{avg_score:.1f}", "Avg Score",
                              "sapphire", "Out of 100"), unsafe_allow_html=True)
