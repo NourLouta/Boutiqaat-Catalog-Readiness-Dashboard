@@ -1,0 +1,14 @@
+# Streamlit secrets - DO NOT COMMIT
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.env
+venv/
+env/
+
+# Excel temporary files
+~$*.xlsx
