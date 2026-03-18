@@ -1569,17 +1569,20 @@ with tab_category:
             ],
             zmin=0, zmax=100,
             text=[[f"{v:.1f}%" if v is not None else "N/A"
-                   for v in row] for row in heatmap_data.values.tolist()],
+                for v in row] for row in heatmap_data.values.tolist()],
             texttemplate="%{text}",
             textfont=dict(size=14, color="white", family=T.FONT_FAMILY),
             hovertemplate="<b>%{y}</b><br>Category: %{x}<br>Completion: %{z:.1f}%<extra></extra>",
             colorbar=dict(
-                title="Completion %",
-                titlefont=dict(size=12, color=T.TEXT_PRIMARY),
-                tickfont=dict(size=11, color=T.TEXT_PRIMARY),
+                title=dict(
+                    text="Completion %",
+                    font=dict(size=12, color=T.TEXT_PRIMARY, family=T.FONT_FAMILY)
+                ),
+                tickfont=dict(size=11, color=T.TEXT_PRIMARY, family=T.FONT_FAMILY),
                 thickness=16,
             )
         ))
+
         fig_heat = plotly_layout(fig_heat, "🔥 Field Completion Rate by Category (%)", height=420)
         fig_heat.update_xaxes(side="top", tickfont=dict(size=13, color=T.TEXT_PRIMARY))
         fig_heat.update_yaxes(tickfont=dict(size=12, color=T.TEXT_PRIMARY))
