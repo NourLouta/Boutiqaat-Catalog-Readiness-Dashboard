@@ -1004,10 +1004,10 @@ with tab_guide:
         """, unsafe_allow_html=True)
 
     with col_g2:
-        # ── Skincare Field Weights ──────────────────────────────────────────
+        # Build Skincare rows
         sc_rows = ""
         for i, (field, w) in enumerate(SKINCARE_WEIGHTS.items()):
-            bg   = "rgba(184,134,11,0.06)" if i % 2 == 0 else "white"
+            bg = "rgba(184,134,11,0.06)" if i % 2 == 0 else "white"
             note = " 🖼️ graduated" if field == SKINCARE_IMG_FIELD else ""
             sc_rows += f"""
             <tr style="background:{bg};">
@@ -1016,10 +1016,10 @@ with tab_guide:
                 <td style="padding:7px 10px;text-align:center;">{w}%</td>
             </tr>"""
 
-        # ── Apparel Field Weights ───────────────────────────────────────────
+        # Build Apparel rows
         ap_rows = ""
         for i, (field, w) in enumerate(APPAREL_WEIGHTS.items()):
-            bg   = "rgba(59,130,246,0.05)" if i % 2 == 0 else "white"
+            bg = "rgba(59,130,246,0.05)" if i % 2 == 0 else "white"
             note = " 🖼️ graduated" if field == APPAREL_IMG_FIELD else ""
             ap_rows += f"""
             <tr style="background:{bg};">
