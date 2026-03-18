@@ -60,7 +60,7 @@ class BoutiqaatTheme:
     ACCENT_CRIMSON  = "#EF4444"   # ❌ Incomplete / danger
     ACCENT_SAPPHIRE = "#3B82F6"   # 📊 Info / charts
     ACCENT_VIOLET   = "#8B5CF6"   # 🔮 Secondary charts
-    ACCENT_ROSE     = "#F43F5E"   # 💄 Skincare category
+    ACCENT_ROSE     = "#F43F5E"   # 🧴 Skincare category
     ACCENT_TEAL     = "#14B8A6"   # 👕 Apparel category
 
     # BACKGROUND
@@ -1191,7 +1191,7 @@ with tab_exec:
     cc1, cc2, cc3, cc4 = st.columns(4)
 
     with cc1:
-        st.markdown(kpi_card("💄", fmt_num(sc_count), "Skincare SKUs", "rose"), unsafe_allow_html=True)
+        st.markdown(kpi_card("🧴", fmt_num(sc_count), "Skincare SKUs", "rose"), unsafe_allow_html=True)
     with cc2:
         st.markdown(kpi_card("📊", f"{sc_avg:.1f}", "Skincare Avg Score",
                              "rose", f"{sc_ready} fully ready"), unsafe_allow_html=True)
@@ -1254,7 +1254,7 @@ with tab_exec:
 
         fig_bar = go.Figure()
         fig_bar.add_trace(go.Bar(
-            name="💄 Skincare", x=statuses, y=sc_vals,
+            name="🧴 Skincare", x=statuses, y=sc_vals,
             marker_color=T.ACCENT_ROSE,
             text=[str(v) for v in sc_vals], textposition="outside",
             textfont=dict(size=13, color=T.TEXT_PRIMARY, family=T.FONT_FAMILY),
@@ -1280,7 +1280,7 @@ with tab_exec:
     with col_hist1:
         fig_hist = go.Figure()
         fig_hist.add_trace(go.Histogram(
-            x=sc_scored["Score"], name="💄 Skincare",
+            x=sc_scored["Score"], name="🧴 Skincare",
             nbinsx=20, marker_color=T.ACCENT_ROSE, opacity=0.80,
             hovertemplate="Score: %{x}<br>Count: %{y}<extra>Skincare</extra>",
         ))
@@ -1321,7 +1321,7 @@ with tab_exec:
             }
 
         summary_rows = []
-        if not sc_scored.empty: summary_rows.append(bucket_summary(sc_scored, "💄 Skincare"))
+        if not sc_scored.empty: summary_rows.append(bucket_summary(sc_scored, "🧴 Skincare"))
         if not ap_scored.empty: summary_rows.append(bucket_summary(ap_scored, "👕 Apparel"))
         combined_row = {
             "Category":    "🛍️ Combined",
@@ -1386,7 +1386,7 @@ with tab_exec:
 
     with g1:
         sc_pct_ready = sc_ready / sc_count * 100 if sc_count else 0
-        st.plotly_chart(gauge_chart(sc_pct_ready, "💄 Skincare % Fully Ready",
+        st.plotly_chart(gauge_chart(sc_pct_ready, "🧴 Skincare % Fully Ready",
                                     T.ACCENT_ROSE), use_container_width=True)
     with g2:
         st.plotly_chart(gauge_chart(pct_ready, "🛍️ Overall % Fully Ready",
@@ -1461,11 +1461,11 @@ with tab_category:
     # ── Category selector ────────────────────────────────────────────────────
     cat_sel = st.radio(
         "🔎 View Category",
-        ["🛍️ Combined", "💄 Skincare", "👕 Apparel"],
+        ["🛍️ Combined", "🧴 Skincare", "👕 Apparel"],
         horizontal=True, key="cat_radio"
     )
 
-    if cat_sel == "💄 Skincare":
+    if cat_sel == "🧴 Skincare":
         view_df    = sc_scored
         view_raw   = sc_raw
         view_weights = SKINCARE_WEIGHTS
@@ -1567,7 +1567,7 @@ with tab_category:
             ap_comp = field_completion(ap_raw, APPAREL_WEIGHTS)
             all_fields = sorted(set(list(sc_comp.keys()) + list(ap_comp.keys())))
             heatmap_data = pd.DataFrame({
-                "💄 Skincare": [sc_comp.get(f, None) for f in all_fields],
+                "🧴 Skincare": [sc_comp.get(f, None) for f in all_fields],
                 "👕 Apparel":  [ap_comp.get(f, None) for f in all_fields],
             }, index=all_fields)
         else:
@@ -2038,7 +2038,7 @@ with tab_insights:
                 textfont=dict(size=12, color=T.TEXT_PRIMARY, family=T.FONT_FAMILY),
                 hovertemplate="<b>%{x}</b><br>Missing: %{y:.1f}%<extra>Skincare</extra>",
             ))
-            fig_sc_miss = plotly_layout(fig_sc_miss, "💄 Skincare — Missing Fields %", height=380)
+            fig_sc_miss = plotly_layout(fig_sc_miss, "🧴 Skincare — Missing Fields %", height=380)
             fig_sc_miss.update_xaxes(tickangle=35)
             fig_sc_miss.update_yaxes(title_text="% SKUs Missing", range=[0, 110])
             st.plotly_chart(fig_sc_miss, use_container_width=True)
@@ -2068,7 +2068,7 @@ with tab_insights:
         with it1:
             display_table(
                 sc_missing[["Field", "Weight", "Missing SKUs", "Missing %", "Impact Score"]],
-                title="💄 Skincare — Field Impact Analysis",
+                title="🧴 Skincare — Field Impact Analysis",
                 download_name="skincare_missing_fields.csv",
                 scrollable=False, align="center"
             )
@@ -2264,7 +2264,7 @@ with tab_insights:
             )
         with ex2:
             st.download_button(
-                "💄 Skincare Report",
+                "🧴 Skincare Report",
                 data=sc_scored.to_csv(index=False).encode("utf-8"),
                 file_name="boutiqaat_skincare_readiness.csv",
                 mime="text/csv", key="dl_sc_export"
