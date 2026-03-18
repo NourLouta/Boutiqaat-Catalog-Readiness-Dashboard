@@ -159,8 +159,8 @@ def fmt_pct(n, dp=1):
 # 🔐 AUTHENTICATION
 # ================================
 def check_password():
-    VALID_USER = "Boutiqaat"
-    VALID_PASS = "Boutiqaat@2026"
+    VALID_USER = st.secrets["auth"]["username"]
+    VALID_PASS = st.secrets["auth"]["password"]
 
     def _verify():
         try:
